@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Memo Function</title>
+</head>
+<body class="bg-dark text-white">
+    <div class="container-fluid h-100">
+        <div id="loading-content" class="text-center mt-5">
+            <h3>Trainer</h3>
+        </div>
+        <div id="login-content" class="text-center mt-5 d-none">
+            <h3>Google認証</h3>
+            <button id="google-login-btn" class="btn btn-primary">Googleでログイン</button>
+        </div>
+        <div class="row h-100 justify-content-center d-none" id="user-content">
+            <div class="container p-5 col-9 my-5" style="background-color: rgba(0,0,0,0.5); border-radius: 8px;">
+                <h1 class="p-1">ユーザー情報</h1>
+                <form id="registrationForm">
+                    <div class="form-group p-1">
+                        <p><strong>一意のキー:</strong> <span id="user-key"></span></p>
+                    </div>
+                    <div class="form-group p-1">
+                        <p><strong>氏名:</strong> <span id="user-name"></span><p>
+                    </div>
+                    <div class="form-group p-1">
+                        <p><strong>アイコン:</strong><img id="user-icon" src="" alt="アイコン画像" class="rounded-circle p-2" style="width: 30px;"></p>
+                    </div>
+                    <div class="form-group p-1">
+                        <p><strong>ヘッダー:</strong><img id="user-image" src="" alt="ヘッダー画像" class="p-2" style="width: 30px;"></p>
+                    </div>
+                    <div class="form-group p-1">
+                        <label for="whyme"><strong>Whyme?</strong></label>
+                        <span id="user-whyme"></span>
+                        <input type="text" id="whyme" class="form-control">
+                    </div>
+                    <div class="form-group p-1">
+                        <label for="gptkey"><strong>GPT-APIキー</strong></label>
+                        <span id="user-gptkey"></span>
+                        <input type="text" id="gptkey" class="form-control">
+                    </div>
+                    <div class="form-group p-1">
+                        <label for="userImage"><strong>ヘッダー画像</strong></label>
+                        <span id="user-userImage"></span>
+                        <input type="file" id="userImage" class="form-control">
+                    </div>
+                    <div class="form-group p-1">
+                        <label><strong>習慣:</strong></label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="habit" id="video" value="video">
+                            <label class="form-check-label" for="video">動画（身体ケア・瞑想など）</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="habit" id="memorize" value="memorize">
+                            <label class="form-check-label" for="memorize">暗記（語学・IT知識など）</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="habit" id="keyboard" value="keyboard">
+                            <label class="form-check-label" for="keyboard">キーボード（早撃ち・クイズなど）</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="habit" id="mirror" value="mirror">
+                            <label class="form-check-label" for="mirror">鏡</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="habit" id="black" value="black">
+                            <label class="form-check-label" for="black">黒</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="habit" id="white" value="white">
+                            <label class="form-check-label" for="white">白</label>
+                        </div>
+                    </div>
+                    <div class="form-group p-1">
+                        <label for="videoUrl"><strong>動画 URL:</strong></label>
+                        <span id="user-videoUrl"></span>
+                        <input type="text" id="videoUrl" class="form-control" value="https://www.youtube.com/watch?v=5WkW5DQUdEM">
+                    </div>
+                    <div class="form-group p-1">
+                        <label for="memorizeCsv"><strong>暗記 CSV:</strong></label>
+                        <span id="user-memorizeCsv"></span>
+                        <input type="file" id="memorizeCsv" class="form-control">
+                    </div>
+                    <div class="form-group p-1">
+                        <label for="keyboardCsv"><strong>キーボード CSV:</strong></label>
+                        <span id="user-keyboardCsv"></span>
+                        <input type="file" id="keyboardCsv" class="form-control">
+                    </div>
+                    <div class="form-group p-1 py-3" id="usersContainer">
+                        <label><strong>フォロー</strong></label>
+                        <!-- Checkboxes will be added here -->
+                    </div>
+                    <button type="submit" class="btn btn-primary p-2 m-1 ">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+<!-- JavaScript -->
+<script src="https://www.gstatic.com/firebasejs/9.14.0/firebase-compat.js"></script>
+<script>
+  // Initialize Firebase
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyAWWgTRtSNkLPYcIWiSenmO4dpfdAntrO8",
+        authDomain: "whyme-js-00.firebaseapp.com",
+        databaseURL: "https://whyme-js-00-default-rtdb.firebaseio.com/",
+        projectId: "whyme-js-00",
+        storageBucket: "whyme-js-00.appspot.com",
+        messagingSenderId: "901066502444",
+        appId: "1:901066502444:web:07024a1f5875fd72bebc89"
+    };
+    firebase.initializeApp(firebaseConfig);
+    // ログイン状態の監視
+    firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+        var userData = {
+            displayName: user.displayName,
+            photoUrl: user.photoURL
+        };
+        firebase.database().ref('users/' + user.uid).update(userData);
+        console.log(userData);
+        // ユーザーがログインしている場合
+        document.getElementById('login-content').classList.add('d-none');
+        document.getElementById('loading-content').classList.add('d-none');
+        document.getElementById('user-content').classList.remove('d-none');
+        document.getElementById('user-key').textContent = user.uid;
+        document.getElementById('user-name').textContent = user.displayName;
+        document.getElementById('user-icon').setAttribute('src', user.photoURL);
+        firebase.database().ref('users/' + user.uid).once('value').then(function(snapshot) {
+            // Get the user data from the snapshot
+            var userData = snapshot.val();
+            console.log(userData);
+
+            // Set the values to the HTML elements
+            document.getElementById('user-whyme').textContent = userData.whyme;
+            document.getElementById('user-gptkey').textContent = userData.gptkey;
+
+            // Check the habit radio button that matches the user data
+            if(userData.habit){
+                var radioBtn = document.querySelector(`input[name="habit"][value="${userData.habit}"]`);
+                if (radioBtn) radioBtn.checked = true;
+            }
+
+            // Set the video URL
+            document.getElementById('user-videoUrl').textContent = userData.videoUrl;
+
+            // Get the imageURL
+            firebase.database().ref('users/' + user.uid + '/imageURL').once('value').then(function(snapshot) {
+                // Get the value from the snapshot
+                var imageURL = snapshot.val();
+            });
+
+            // Get the memorizeCsvURL
+            firebase.database().ref('users/' + user.uid + '/memorizeCsvURL').once('value').then(function(snapshot) {
+                // Get the value from the snapshot
+                var memorizeCsvURL = snapshot.val();
+                // Set the text
+                document.getElementById('user-memorizeCsv').textContent = memorizeCsvURL;
+            });
+
+            // Get the keyboardCsvURL
+            firebase.database().ref('users/' + user.uid + '/keyboardCsvURL').once('value').then(function(snapshot) {
+                // Get the value from the snapshot
+                var keyboardCsvURL = snapshot.val();
+                // Set the text
+                document.getElementById('user-keyboardCsv').textContent = keyboardCsvURL;
+            });
+
+            // Get the users list
+            firebase.database().ref('users').once('value', function(snapshot) {
+                var usersContainer = document.getElementById('usersContainer');
+                snapshot.forEach(function(userSnapshot) {
+                    console.log(userSnapshot);
+                    var checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.name = 'userCheckbox';
+                    checkbox.value = userSnapshot.key;
+                    checkbox.id = 'userCheckbox_' + userSnapshot.key;
+                    var label = document.createElement('label');
+                    label.htmlFor = 'userCheckbox_' + userSnapshot.key;
+                    label.appendChild(document.createTextNode(userSnapshot.key));
+
+                    // If userData.selectedUsers exists and the userSnapshot.key is in selectedUsers array, check the checkbox
+                    if (userData.selectedUsers && userData.selectedUsers.includes(userSnapshot.key)) {
+                        checkbox.checked = true;
+                    }
+
+                    usersContainer.appendChild(checkbox);
+                    usersContainer.appendChild(label);
+                });
+            });
+
+        });
+        firebase.database().ref('users/' + user.uid + '/imageURL').once('value').then(function(snapshot) {
+                var imageURL = snapshot.val();
+                // If the imageURL exists
+                if (imageURL) {
+                    // Set the image source
+                    document.getElementById('user-image').setAttribute('src', imageURL);
+                }
+        });
+        document.getElementById('registrationForm').addEventListener('submit', function(addEvent) {
+            addEvent.preventDefault();
+
+            var whyme = document.getElementById('whyme').value;
+            var gptkey = document.getElementById('gptkey').value;
+            var habit = document.querySelector('input[name="habit"]:checked').value;
+            var videoUrl = document.getElementById('videoUrl').value;
+            var memorizeCsv = document.getElementById('memorizeCsv').files[0];
+            var keyboardCsv = document.getElementById('keyboardCsv').files[0];
+            var selectedUsers = [];
+            var checkboxes = document.querySelectorAll('input[name="userCheckbox"]:checked');
+
+            checkboxes.forEach(function(checkbox) {
+                selectedUsers.push(checkbox.value);
+            });
+
+            // Save the user data to Firebase Realtime Database
+            var userData = {
+                whyme: whyme,
+                gptkey: gptkey,
+                habit: habit,
+                videoUrl: videoUrl,
+                selectedUsers: selectedUsers
+            };
+            firebase.database().ref('users/' + user.uid).set(userData).then(function() {
+                var storageRef = firebase.storage().ref();
+                var uploadPromises = [];
+
+                // Check if a user image has been selected
+                var userImage = document.getElementById('userImage').files[0];
+                if (userImage) {
+                    var userImageRef = storageRef.child('userImages/' + user.uid);
+                    var userImageUpload = userImageRef.put(userImage).then(function() {
+                        return userImageRef.getDownloadURL().then(function(url) {
+                            return firebase.database().ref('users/' + user.uid + '/imageURL').set(url)
+                        });
+                    });
+                    uploadPromises.push(userImageUpload);
+                }
+                // Check if a memorizeCsv file has been selected
+                if (memorizeCsv) {
+                    var memorizeCsvRef = storageRef.child('memorizeCsv/' + user.uid);
+                    var memorizeCsvUpload = memorizeCsvRef.put(memorizeCsv).then(function() {
+                        return memorizeCsvRef.getDownloadURL().then(function(url) {
+                            return firebase.database().ref('users/' + user.uid + '/memorizeCsvURL').set(url)
+                        });
+                    });
+                    uploadPromises.push(memorizeCsvUpload);
+                }
+                // Check if a keyboardCsv file has been selected
+                if (keyboardCsv) {
+                    var keyboardCsvRef = storageRef.child('keyboardCsv/' + user.uid);
+                    var keyboardCsvUpload = keyboardCsvRef.put(keyboardCsv).then(function() {
+                        return keyboardCsvRef.getDownloadURL().then(function(url) {
+                            return firebase.database().ref('users/' + user.uid + '/keyboardCsvURL').set(url)
+                        });
+                    });
+                    uploadPromises.push(keyboardCsvUpload);
+                }
+                // Return a single promise which will resolve when all the uploads are complete
+                return Promise.all(uploadPromises);
+            }).then(function() {
+                // Page reload after all uploads are done
+                location.reload();
+            }).catch(function(error) {
+                // If there is an error, log it to the console
+                console.error("Error saving data:", error);
+            });
+        });
+    } else {
+        // ユーザーがログアウトしている場合
+        document.getElementById('login-content').classList.remove('d-none');
+        document.getElementById('loading-content').classList.add('d-none');
+        document.getElementById('user-content').classList.add('d-none');
+        }
+    });
+    // Google認証のためのFirebaseのAuthProviderを作成
+    var provider = new firebase.auth.GoogleAuthProvider();
+
+    // Googleでログインボタンがクリックされた時の処理
+    document.getElementById('google-login-btn').addEventListener('click', function() {
+        // Google認証のためのFirebaseのAuthProviderを作成
+        firebase.auth().signInWithPopup(provider).then(function(result) {
+            var user = result.user;
+            firebase.database().ref('users/' + user.uid).once('value').then(function(snapshot) {
+                var userData = snapshot.val();
+                console.log(userData);
+            }).catch(function(error) {
+                console.log(error.message);
+            });
+        }).catch(function(error) {
+            console.error('ログインエラー:', error);
+        });
+    });
+</script>
+<script src="jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="bootstrap.min.js"></script>
+<!-- <script src="svg-animation.js"></script> -->
+</body>
+</html>
+

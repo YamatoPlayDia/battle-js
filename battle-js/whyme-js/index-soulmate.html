@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-whyyou.css">
+    <title>Memo Function</title>
+</head>
+<body class="bg-dark text-white">
+    <div class="container-fluid h-100">
+        <div id="loading-content" class="text-center mt-5">
+            <h3>Trainer</h3>
+        </div>
+        <div id="login-content" class="text-center mt-5 d-none">
+            <h3>Google認証</h3>
+            <button id="google-login-btn" class="btn btn-primary">Googleでログイン</button>
+        </div>
+        <div class="row h-100 justify-content-center d-none" id="user-content">
+            <div class="col-3 m-0 p-3 d-flex flex-column flex-shrink-0 bg-body-tertiary text-white">
+                <span class="pointer d-flex align-items-center me-3 me-md-auto link-body-emphasis text-decoration-none justify-content-center w-100" id="button_mode-description">
+                    <span class="fs-4 fw-bold">Soulmate</span>
+                </span>
+                <hr>
+                <ul class="nav nav-pills flex-column mb-auto">
+                    <li class="nav-item">
+                        <span id="button_mode-default" class="pointer nav-link menu-mode nav-defailt nav-me">
+                            <span class="material-symbols-outlined fill nav-material">home</span>
+                            ホーム
+                        </span>
+                    </li>
+                    <li>
+                        <span id="button_mode-favorite" class="pointer nav-link menu-mode nav-favorite nav-me">
+                            <span class="material-symbols-outlined fill nav-material">bookmark</span>
+                            ブックマーク
+                        </span>
+                    </li>
+                    <li>
+                        <span id="button_mode-trash" class="pointer nav-link menu-mode nav-delete nav-me">
+                            <span class="material-symbols-outlined fill nav-material">delete</span>
+                            ゴミ箱
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-9 col-main p-0 pe-3 vh-100">
+                <!-- Default Mode -->
+                <div class="mode-default d-none">
+                    <!-- Chat Area -->
+                    <div class="chat-container my-3">
+                        <div class="area-chat-default"></div>
+                    </div>
+                    <!-- Memo Area -->
+                    <div class="area-memo d-flex align-items-center justify-content-between my-3 row">
+                        <div class="col-9"><textarea type="text" class="form-control" id="memo" placeholder="Enter your memo" style="height: 80px;"></textarea></div>
+                        <div class="col-3"><button type="button" class="btn btn-success w-100 btn-submit" id="submit">Submit</button></div>
+                    </div>
+                </div>
+                <!-- Favorite Mode -->
+                <div class="mode-favorite d-none">
+                    <!-- Chat Area -->
+                    <div class="chat-container my-3">
+                        <div class="area-chat-favorite"></div>
+                    </div>
+                    <!-- Memo Area -->
+                    <div class="area-memo d-flex align-items-center justify-content-end mt-3">
+                        <button type="button" class="btn btn-danger" id="button_reset-favorite">Reset Favorites</button>
+                    </div>
+                </div>
+                <!-- Trash Mode -->
+                <div class="mode-trash d-none">
+                    <!-- Chat Area -->
+                    <div class="chat-container my-3">
+                        <div class="area-chat-trash"></div>
+                    </div>
+                    <!-- Memo Area -->
+                    <div class="area-memo d-flex align-items-center justify-content-end mt-3">
+                        <button type="button" class="btn btn-danger" id="button_reset-trash">Empty Trash</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- JavaScript -->
+<script src="https://www.gstatic.com/firebasejs/9.14.0/firebase-compat.js"></script>
+<script src="jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="bootstrap.min.js"></script>
+<script src="script-soulmate.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,110 @@
+/* Add this to your CSS file */
+html,body {
+    font-size: 14px;
+}
+
+a, .nav-link {
+    color: #ffffff;
+}
+.pointer {
+    cursor: pointer;
+}
+.not-allowed {
+    cursor: not-allowed;
+}
+
+.fill {
+    font-variation-settings:'FILL' 1;
+}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    background-color: #198754;
+}
+a:focus, a:hover, .nav-link:focus, .nav-link:hover {
+    color: #157354;
+}
+::-webkit-scrollbar{
+    width: 0.6rem;
+}
+::-webkit-scrollbar-track{
+    background-color: #000;
+}
+::-webkit-scrollbar-thumb{
+    background-color: #FFF;
+    border: #000 0.25rem solid;
+}
+
+.modal-content {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+  }
+
+  .modal-header {
+    border-bottom: 1px solid #dee2e6;
+  }
+
+  .modal-footer {
+    border-top: 1px solid #dee2e6;
+  }
+
+  .nav-tabs .nav-link {
+    color: #495057;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+
+  .nav-tabs .nav-link.active {
+    color: #ffffff;
+    background-color: #007bff;
+    border: 1px solid #007bff;
+  }
+  .nav-material {
+    font-size: 1.3rem;
+    vertical-align: text-bottom;
+  }
+
+  .container-fluid {
+    min-height: 100vh;
+  }
+
+  .chat-container {
+    height: 80vh;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.card-you {
+    background-image: url(bg-card.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 30%;
+    background-color:#157354;
+    background-blend-mode:darken;
+}
+
+.card-video {
+    background-image: url(bg-card2.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 30%;
+    background-color:#b02a37;
+    background-blend-mode:darken;
+}
+
+/* .navbar {
+    border: 1px solid #FFF;
+    background-color: #000;
+}
+.navbar a {
+    color: #FFF !important;
+}
+.navbar-brand {
+    max-width: 14rem;
+}
+.navbar-collapse {
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 100) 20%);;
+} */

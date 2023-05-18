@@ -1,0 +1,36 @@
+/* add-style.css */
+
+#tr-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 60px;
+  z-index: 9999; /* 他の要素より前面に表示 */
+  border: none; /* デフォルトの枠線を削除 */
+}
+
+#tr-frame {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 30px;
+  background-color: #212121; /* Bootstrap のダークテーマに似た色 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  z-index: 99999; /* 他の要素より前面に表示 */
+  border: none; /* デフォルトの枠線を削除 */
+}
+
+.tr-icon {
+    text-decoration: none;
+    color: #fff; /* Bootstrap のダークテーマに似た色 */
+    /* ここでアイコンのスタイルを適用 */
+}
+
+.tr-icon:hover {
+    color: #007bff; /* Bootstrap のリンクホバー色に似た色 */
+}
